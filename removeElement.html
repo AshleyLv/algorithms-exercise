@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>removeElement</title>
+</head>
+<body>
+	<div>Given an array and a value, remove all instances of that value in place and return the new length.
+
+Do not allocate extra space for another array, you must do this in place with constant memory.
+
+The order of elements can be changed. It doesn't matter what you leave beyond the new length.
+
+Example:
+Given input array nums = [3,2,2,3], val = 3
+
+Your function should return length = 2, with the first two elements of nums being 2.</div>
+<script type="text/javascript">
+	var removeElement = function(nums, val) {
+		let count=0;
+		let length;
+		let first = true;
+		for(let i=nums.length-1;i>=0;i--){
+			if(first&&nums[i]!=val){
+				length = i;
+				first = false;
+			}
+			if(nums[i]===val){
+				count++;
+				if(i<length){
+
+					nums[i]=nums[length];
+					nums[length]=val;
+
+					length--;
+				}
+
+			}
+
+
+		}
+		return nums.length-count;
+	};
+</script>
+</body>
+</html>
