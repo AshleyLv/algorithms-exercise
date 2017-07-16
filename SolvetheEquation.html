@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Solve the Equation</title>
+</head>
+<body>
+	<div>
+		Solve a given equation and return the value of x in the form of string "x=#value". The equation contains only '+', '-' operation, the variable x and its coefficient.
+
+		If there is no solution for the equation, return "No solution".
+
+		If there are infinite solutions for the equation, return "Infinite solutions".
+
+		If there is exactly one solution for the equation, we ensure that the value of x is an integer.
+
+		Example 1:
+		<pre><code>
+			Input: "x+5-3+x=6+x-2"
+			Output: "x=2"</code></pre>
+
+			Example 2:<pre><code>
+			Input: "x=x"
+			Output: "Infinite solutions"</code></pre>
+			Example 3:
+			<pre><code>
+				Input: "2x=x"
+				Output: "x=0"</code></pre>
+				Example 4:
+				<pre><code>
+					Input: "2x+3x-6x=x+2"
+					Output: "x=-1"</code></pre>
+					Example 5:
+					<pre><code>
+						Input: "x=x+2"
+						Output: "No solution"
+					</code></pre>
+				</div>
+				<script type="text/javascript">
+					var solveEquation = function(equation) {
+						 let leftValue=0;
+						let countOfLeftX = 0;
+						let rightValue=0;
+						let countOfRightX=0;
+						let isLeft=true;
+						let lastOperator='+';
+						let temp='';
+						for(let i=0;i<=equation.length;i++){
+							if(isLeft){
+								if(equation[i]==='+' || equation[i]==='-' || equation[i]==='='){
+									if(temp.length>0){
+										if(!!~temp.indexOf('x')){
+											let v = temp.substring(0,temp.length-1);
+											if(!v){
+												v=1;
+											}
+											countOfLeftX = countOfLeftX +(lastOperator==='+'?+parseFloat(v):-parseFloat(v));
+											
+										} else {
+											leftValue = leftValue + (lastOperator==='+'?+parseFloat(temp):-parseFloat(temp));
+										}
+										temp = '';
+									} 
+									lastOperator = equation[i];
+
+								} else {
+									temp+=equation[i];
+								}
+								if(equation[i]==='='){
+									lastOperator='+';
+									isLeft=false;
+								}
+
+							} else {
+								if(equation[i]==='+' || equation[i]==='-' || i==equation.length){
+									if(temp.length>0){
+										if(!!~temp.indexOf('x')){
+											let v = temp.substring(0,temp.length-1);
+											if(!v){
+												v=1;
+											}
+											countOfRightX = countOfRightX +(lastOperator==='+'?+parseFloat(v):-parseFloat(v));
+											
+										} else {
+											rightValue = rightValue + (lastOperator==='+'?+parseFloat(temp):-parseFloat(temp));
+										}
+										temp = '';
+									} 
+									if(i!==equation.length){
+										lastOperator = equation[i];
+									}
+									
+
+								} else {
+									temp+=equation[i];
+								}
+							}
+
+						}
+						let count = countOfLeftX - countOfRightX;
+						let value = rightValue - leftValue;
+						if(count ===0 && value===0){
+							return "Infinite solutions";
+						} else if(count ===0 && value!==0){
+							return "No solution";
+						} else {
+							return "x="+value/count;
+						}
+					};
+				</script>
+			</body>
+			</html>
